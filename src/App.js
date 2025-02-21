@@ -4,21 +4,26 @@ import Card from "./Card";
 
 function App() {
   const people = [
-    { name: "Varshith Bachu", favoriteColor: "red", favoriteFood: "Mandi" },
+    { name: "Nikhil Devarakonda", favoriteColor: "red", favoriteFood: "Mandi" },
     {
-      name: "Aakanksha Rangdal",
-      favoriteColor: "Lavendar",
+      name: "Chaitanya Alwal",
+      favoriteColor: "black",
       favoriteFood: "ice-cream",
     },
-    { name: "Bharat Vamsy", favoriteColor: "blue", favoriteFood: "Biryani" },
     {
-      name: "Srinivas Mekala",
+      name: "Varun Reddy Karra",
+      favoriteColor: "blue",
+      favoriteFood: "Biryani",
+    },
+    {
+      name: "Mehak Seth",
       favoriteColor: "sky blue",
-      favoriteFood: "Dosa",
+      favoriteFood: "Naan",
     },
   ];
   return (
     <Container className="my-4">
+      <h1 className="text-center">My Classmates</h1>
       <Container className="w-50 d-flex flex-column gap-3">
         {people.map((person, index) => (
           <Card key={index} person={person} />
