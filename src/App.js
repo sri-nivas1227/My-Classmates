@@ -1,5 +1,6 @@
-import logo from './logo.svg';
-import './App.css';
+import { Container } from "react-bootstrap";
+import "./App.css";
+import Card from "./Card";
 
 function App() {
   const people = [
