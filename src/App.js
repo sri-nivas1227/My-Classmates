@@ -22,14 +22,18 @@ function App() {
     },
   ];
   return (
-    <Container className="my-4">
-      <h1 className="text-center">My Classmates</h1>
-      <Container className="w-50 d-flex flex-column gap-3">
-        {people.map((person, index) => (
-          <Card key={index} person={person} />
-        ))}
-      </Container>
-    </Container>
+    <div className="home">
+      <div className="py-4 d-flex flex-column align-items-center">
+        <h1 className="text-center bg-dark bg-opacity-75 text-white p-1 rounded-4 heading">
+          My Classmates
+        </h1>
+        <Container className="w-50 d-flex flex-column gap-3">
+          {people.map((person, index) => (
+            <Card key={index} person={person} />
+          ))}
+        </Container>
+      </div>
+    </div>
   );
 }
 
