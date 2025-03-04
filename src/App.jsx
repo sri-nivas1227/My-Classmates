@@ -2,43 +2,21 @@ import { Container } from "react-bootstrap";
 import "./App.css";
 import Card from "./Card";
 import { useState } from "react";
-import DataGridDemo from "./DataGridDemo";
 import CreatePerson from "./createPerson";
+import { useSelector, useDispatch } from "react-redux";
+import { addPerson, deletePerson, editPerson, people } from "./personSlice";
+import TableView from "./DataGrid";
 
 function App() {
-  const people = [
-    {
-      name: "Nikhil Devarakonda",
-      favoriteColor: "red",
-      favoriteFood: "Mandi",
-      id: 1,
-    },
-    {
-      name: "Chaitanya Alwal",
-      favoriteColor: "black",
-      favoriteFood: "ice-cream",
-      id: 2,
-    },
-    {
-      name: "Varun Reddy Karra",
-      favoriteColor: "blue",
-      favoriteFood: "Biryani",
-      id: 3,
-    },
-    {
-      name: "Mehak Seth",
-      favoriteColor: "sky blue",
-      favoriteFood: "Naan",
-      id: 4,
-    },
-  ];
-  const [peopleData, setPeopleData] = useState(people);
+  const peopleData = useSelector(people);
+  const dispatch = useDispatch();
   const [formActive, setFormActive] = useState("");
   const [view, setView] = useState("table");
   const [personForm, setPersonForm] = useState({
     name: "",
     favoriteColor: "",
     favoriteFood: "",
+    id: "",
   });
 
   const resetPersonForm = () => {
@@ -46,6 +24,7 @@ function App() {
       name: "",
       favoriteColor: "",
       favoriteFood: "",
+      id: "",
     });
   };
 
@@ -59,8 +38,8 @@ function App() {
         alert("Please fill all the fields");
         return;
       }
-      personForm.id = peopleData.length + 1;
-      setPeopleData([personForm, ...peopleData]);
+      // setPeopleData([personForm, ...peopleData]);
+      dispatch(addPerson(personForm));
       resetPersonForm();
 
       setFormActive("");
@@ -73,14 +52,7 @@ function App() {
         alert("Please fill all the fields");
         return;
       }
-      setPeopleData((data) => {
-        return data.map((p) => {
-          if (p.name === personForm.name) {
-            return personForm;
-          }
-          return p;
-        });
-      });
+      dispatch(editPerson(personForm));
       setFormActive("");
     }
   };
@@ -91,15 +63,6 @@ function App() {
   };
 
   const handleEditPerson = (person) => {
-    console.log(personForm);
-    // setPeopleData((data) => {
-    //   return data.filter(
-    //     (p) =>
-    //       p.name !== person.name &&
-    //       p.favoriteColor !== person.favoriteColor &&
-    //       p.favoriteFood !== person.favoriteFood
-    //   );
-    // });
     setFormActive("edit");
     setPersonForm((prev) => {
       return {
@@ -107,19 +70,12 @@ function App() {
         name: person.name,
         favoriteColor: person.favoriteColor,
         favoriteFood: person.favoriteFood,
+        id: person.id,
       };
     });
-    console.log(personForm);
   };
   const handleDeletePerson = (person) => {
-    setPeopleData((data) => {
-      return data.filter(
-        (p) =>
-          p.name !== person.name &&
-          p.favoriteColor !== person.favoriteColor &&
-          p.favoriteFood !== person.favoriteFood
-      );
-    });
+    dispatch(deletePerson(person));
   };
   return (
     <div className="home">
@@ -167,17 +123,18 @@ function App() {
         )}
         {view === "tile" && (
           <Container className="w-50 d-flex flex-column gap-3">
-            {peopleData.map((person, index) => (
-              <Card
-                key={index}
-                person={person}
-                handleEditPerson={handleEditPerson}
-                handleDeletePerson={handleDeletePerson}
-              />
-            ))}
+            {peopleData &&
+              peopleData.map((person, index) => (
+                <Card
+                  key={index}
+                  person={person}
+                  handleEditPerson={handleEditPerson}
+                  handleDeletePerson={handleDeletePerson}
+                />
+              ))}
           </Container>
         )}
-        {view === "table" && <DataGridDemo peopleData={peopleData} />}
+        {view === "table" && <TableView peopleData={peopleData} />}
       </div>
     </div>
   );

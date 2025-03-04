@@ -16,9 +16,14 @@ const columns = [
     width: 150,
     // editable: true,
   },
+  {
+    field: "likes",
+    headerName: "Likes",
+    width: 150,
+  },
 ];
 
-export default function DataGridDemo({ peopleData }) {
+export default function TableView({ peopleData }) {
   return (
     <div className="m-2 w-50">
       <Box sx={{ height: 400, width: "100%", backgroundColor: "white" }}>
