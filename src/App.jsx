@@ -29,29 +29,24 @@ function App() {
   };
 
   const handleCreatePerson = () => {
+    const regex = /^[a-zA-Z]+$/;
+    if (
+      !regex.test(personForm.name) ||
+      !regex.test(personForm.favoriteColor) ||
+      !regex.test(personForm.favoriteFood)
+    ) {
+      alert(
+        "Please enter valid input, only uppercase and lowercase alphabets are allowed"
+      );
+      return;
+    }
+
     if (formActive === "create") {
-      if (
-        personForm.name === "" ||
-        personForm.favoriteColor === "" ||
-        personForm.favoriteFood === ""
-      ) {
-        alert("Please fill all the fields");
-        return;
-      }
-      // setPeopleData([personForm, ...peopleData]);
       dispatch(addPerson(personForm));
       resetPersonForm();
 
       setFormActive("");
     } else {
-      if (
-        personForm.name === "" ||
-        personForm.favoriteColor === "" ||
-        personForm.favoriteFood === ""
-      ) {
-        alert("Please fill all the fields");
-        return;
-      }
       dispatch(editPerson(personForm));
       setFormActive("");
     }
