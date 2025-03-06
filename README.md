@@ -10,3 +10,10 @@ A basic React Bootstrap application which lists our friends with their favorite 
 
 - I've used ChatGPT to learn about Bootstrap CSS and referred to the classnames to style the elements.
 - I've referred to the documentation to clarify few ambiguities.
+- Used copilot to generate code snippets like create person form.
+
+## Features of the project
+- Data can be viewed in two view "Tile View" and "Table View"
+- Create a person with data validations
+- Edit and Delete a person details
+- Implemented Redux to persist data on reloads
