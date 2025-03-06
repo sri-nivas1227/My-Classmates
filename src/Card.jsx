@@ -15,7 +15,8 @@ const Card = ({ person, handleEditPerson, handleDeletePerson }) => {
     handleEditPerson(person);
   };
   const handleDelete = () => {
-    alert(`Deleting ${person.name}`);
+    const confirmDelete = confirm(`Deleting ${person.name}`);
+    if (!confirmDelete) return;
     handleDeletePerson(person);
   };
   const handleLike = () => {
