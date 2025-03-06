@@ -15,6 +15,7 @@ const Card = ({ person, handleEditPerson, handleDeletePerson }) => {
     handleEditPerson(person);
   };
   const handleDelete = () => {
+    // eslint-disable-next-line no-restricted-globals
     const confirmDelete = confirm(`Deleting ${person.name}`);
     if (!confirmDelete) return;
     handleDeletePerson(person);
