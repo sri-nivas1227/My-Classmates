@@ -48,6 +48,7 @@ function App() {
       setFormActive("");
     } else {
       dispatch(editPerson(personForm));
+      resetPersonForm();
       setFormActive("");
     }
   };
