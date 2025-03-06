@@ -10,7 +10,9 @@ const Card = ({ person, handleEditPerson, handleDeletePerson }) => {
   const dispatch = useDispatch();
 
   const handleEdit = () => {
-    alert(`Editing ${person.name}`);
+    // eslint-disable-next-line no-restricted-globals
+    const confirmEdit = confirm(`Editing ${person.name}`);
+    if (!confirmEdit) return;
     // setFormActive("edit");
     handleEditPerson(person);
   };
@@ -43,14 +45,14 @@ const Card = ({ person, handleEditPerson, handleDeletePerson }) => {
             onClick={handleEdit}
             alt="edit"
             width={24}
-            className="cursor-pointer "
+            className="pointer "
           />
           <img
             src={deleteIcon}
             onClick={handleDelete}
             alt="delete"
             width={24}
-            className="cursor-pointer "
+            className="pointer "
           />
         </div>
         <div className="d-flex gap-2">
