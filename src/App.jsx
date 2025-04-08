@@ -1,14 +1,15 @@
 import { Container } from "react-bootstrap";
 import "./App.css";
 import Card from "./Card";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CreatePerson from "./createPerson";
 import { useSelector, useDispatch } from "react-redux";
 import { addPerson, deletePerson, editPerson, people } from "./personSlice";
 import TableView from "./DataGrid";
+import axios from "axios";
 
 function App() {
-  const peopleData = useSelector(people);
+  const [peopleData, setPeopleData] = useState(useSelector(people));
   const dispatch = useDispatch();
   const [formActive, setFormActive] = useState("");
   const [view, setView] = useState("table");
@@ -29,25 +30,49 @@ function App() {
   };
 
   const handleCreatePerson = () => {
-    const regex = /^[a-zA-Z\s]+$/;
+    console.log(personForm);
+    const stringRegex = /^[a-zA-Z\s]+$/;
+    const colorRegex = /^#[0-9a-f]+$/;
     if (
-      !regex.test(personForm.name) ||
-      !regex.test(personForm.favoriteColor) ||
-      !regex.test(personForm.favoriteFood)
+      !stringRegex.test(personForm.name) ||
+      !colorRegex.test(personForm.favoriteColor) ||
+      !stringRegex.test(personForm.favoriteFood)
     ) {
+      console.log(stringRegex.test(personForm.name));
+      console.log(colorRegex.test(personForm.favoriteColor));
+      console.log(stringRegex.test(personForm.favoriteFood));
       alert(
-        "Please enter valid input, only uppercase and lowercase alphabets are allowed"
+        "Please enter valid input and please choose a color. Only uppercase and lowercase alphabets are allowed for name and food."
       );
       return;
     }
 
     if (formActive === "create") {
-      dispatch(addPerson(personForm));
+      axios
+        .post(`${process.env.REACT_APP_BACKEND_URL}/api/profiles/`, personForm)
+        .then((response) => {
+          const data = response.data;
+          console.log(data);
+          // setPeopleData(data);
+          getAllProfilesFromBackend();
+        });
+      // dispatch(addPerson(personForm));
       resetPersonForm();
 
       setFormActive("");
     } else {
-      dispatch(editPerson(personForm));
+      // dispatch(editPerson(personForm));
+      axios
+        .put(
+          `${process.env.REACT_APP_BACKEND_URL}/api/profiles/${personForm.id}`,
+          personForm
+        )
+        .then((response) => {
+          const data = response.data;
+          console.log(data);
+          // setPeopleData(data);
+          getAllProfilesFromBackend();
+        });
       resetPersonForm();
       setFormActive("");
     }
@@ -73,6 +98,26 @@ function App() {
   const handleDeletePerson = (person) => {
     dispatch(deletePerson(person));
   };
+  useEffect(() => {
+    // Fetch data from backend api using axios
+    getAllProfilesFromBackend();
+  }, []);
+  useEffect(() => {
+    if (formActive) {
+      window.scrollTo(0, 0);
+    }
+  }, [formActive]);
+
+  const getAllProfilesFromBackend = (person) => {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/profiles/`)
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        setPeopleData(data);
+      });
+  };
+
   return (
     <div className="home">
       <div className="w-100 py-4 d-flex flex-column align-items-center">
