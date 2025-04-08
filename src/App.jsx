@@ -12,7 +12,7 @@ function App() {
   const [peopleData, setPeopleData] = useState(useSelector(people));
   const dispatch = useDispatch();
   const [formActive, setFormActive] = useState("");
-  const [view, setView] = useState("table");
+  const [view, setView] = useState("tile");
   const [personForm, setPersonForm] = useState({
     name: "",
     favoriteColor: "",
@@ -108,13 +108,30 @@ function App() {
     }
   }, [formActive]);
 
-  const getAllProfilesFromBackend = (person) => {
+  const getAllProfilesFromBackend = () => {
     axios
       .get(`${process.env.REACT_APP_BACKEND_URL}/api/profiles/`)
       .then((response) => {
         const data = response.data;
         console.log(data);
         setPeopleData(data);
+      });
+  };
+  const getPersonById = (id) => {
+    axios
+      .get(`${process.env.REACT_APP_BACKEND_URL}/api/profiles/${id}`)
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        // update people data with the new person data
+        setPeopleData((prev) => {
+          return prev.map((person) => {
+            if (person.id === id) {
+              return data;
+            }
+            return person;
+          });
+        });
       });
   };
 
@@ -169,6 +186,7 @@ function App() {
                   person={person}
                   handleEditPerson={handleEditPerson}
                   handleDeletePerson={handleDeletePerson}
+                  getPersonById={getPersonById}
                 />
               ))}
           </Container>

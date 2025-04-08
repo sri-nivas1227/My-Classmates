@@ -4,7 +4,12 @@ import { useDispatch } from "react-redux";
 import { personLike } from "./personSlice";
 import axios from "axios";
 
-const Card = ({ person, handleEditPerson, handleDeletePerson }) => {
+const Card = ({
+  person,
+  handleEditPerson,
+  handleDeletePerson,
+  getPersonById,
+}) => {
   /* 
     This component is a card that displays the person's details and a like button
   */
@@ -32,14 +37,24 @@ const Card = ({ person, handleEditPerson, handleDeletePerson }) => {
       )
       .then((res) => {
         console.log(res.data);
+        getPersonById(person.id);
       })
       .catch((err) => {
         console.log(err);
       });
   };
   const handleDislike = () => {
-    // setLikes(likes > 0 ? likes - 1 : 0);
-    dispatch(personLike({ id: person.id, option: "dislike" }));
+    axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/profiles/${person.id}/dislike`
+      )
+      .then((res) => {
+        console.log(res.data);
+        getPersonById(person.id);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   return (
     // The bootstrap classes are referred from ChatGPT
