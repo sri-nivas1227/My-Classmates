@@ -16,19 +16,23 @@ const CreatePerson = ({
           setPersonForm({ ...personForm, name: e.target.value });
         }}
         type="text"
-      ></input>
-      <input
-        placeholder="Favorite Color"
-        className="p-1 rounded-4 w-50 m-auto"
-        value={personForm.favoriteColor}
-        onChange={(e) => {
-          setPersonForm({
-            ...personForm,
-            favoriteColor: e.target.value,
-          });
-        }}
-        type="text"
-      ></input>
+      />
+      <div className="w-50 m-auto">
+        <span className="">Favorite Color: </span>
+        <input
+          placeholder="Favorite Color"
+          className="rounded-2 w-full m-auto"
+          value={personForm.favoriteColor}
+          onChange={(e) => {
+            console.log(e.target.value);
+            setPersonForm({
+              ...personForm,
+              favoriteColor: e.target.value,
+            });
+          }}
+          type="color"
+        />
+      </div>
       <input
         placeholder="Favorite Food"
         className="p-1 rounded-4 w-50 m-auto"

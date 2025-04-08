@@ -2,6 +2,7 @@ import deleteIcon from "./assets/delete-icon.svg";
 import editIcon from "./assets/edit-icon.svg";
 import { useDispatch } from "react-redux";
 import { personLike } from "./personSlice";
+import axios from "axios";
 
 const Card = ({ person, handleEditPerson, handleDeletePerson }) => {
   /* 
@@ -24,7 +25,17 @@ const Card = ({ person, handleEditPerson, handleDeletePerson }) => {
   };
   const handleLike = () => {
     // setLikes(likes + 1);
-    dispatch(personLike({ id: person.id, option: "like" }));
+    // dispatch(personLike({ id: person.id, option: "like" }));
+    axios
+      .patch(
+        `${process.env.REACT_APP_BACKEND_URL}/api/profiles/${person.id}/like`
+      )
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   const handleDislike = () => {
     // setLikes(likes > 0 ? likes - 1 : 0);
@@ -32,10 +43,15 @@ const Card = ({ person, handleEditPerson, handleDeletePerson }) => {
   };
   return (
     // The bootstrap classes are referred from ChatGPT
-    <div className="bg-secondary text-white fs-4 p-4 rounded-4 w-auto d-flex justify-content-between">
+    <div
+      style={{
+        backgroundColor: person.favoriteColor,
+      }}
+      className="text-white fs-4 p-4 rounded-4 w-auto d-flex justify-content-between"
+    >
       <div className="m-0">
         <p className="m-0 cursor-default">Name: {person.name}</p>
-        <p className="m-0">Favorite Color: {person.favoriteColor}</p>
+        <p className="m-0">Favorite Color: {person.favoriteColorName}</p>
         <p className="m-0">Favorite Food: {person.favoriteFood}</p>
       </div>
       <div className="d-flex flex-column justify-content-between align-items-between gap-2 p-0 m-0 ">

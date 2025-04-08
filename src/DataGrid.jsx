@@ -5,7 +5,7 @@ import { DataGrid } from "@mui/x-data-grid";
 const columns = [
   { field: "name", headerName: "Name", width: 150 },
   {
-    field: "favoriteColor",
+    field: "favoriteColorName",
     headerName: "Favorite Color",
     width: 150,
     // editable: true,
