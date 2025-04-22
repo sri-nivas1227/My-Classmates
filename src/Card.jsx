@@ -1,5 +1,5 @@
-import deleteIcon from "./assets/delete-icon.svg";
-import editIcon from "./assets/edit-icon.svg";
+// import deleteIcon from "./assets/delete-icon.svg";
+// import editIcon from "./assets/edit-icon.svg";
 import { useDispatch } from "react-redux";
 import { personLike } from "./personSlice";
 import axios from "axios";
@@ -72,14 +72,18 @@ const Card = ({
       <div className="d-flex flex-column justify-content-between align-items-between gap-2 p-0 m-0 ">
         <div className="d-flex justify-content-end gap-2">
           <img
-            src={editIcon}
+            src={
+              "https://sri-misc-bucket.s3.us-east-2.amazonaws.com/student-connect/edit-icon.svg"
+            }
             onClick={handleEdit}
             alt="edit"
             width={24}
             className="pointer "
           />
           <img
-            src={deleteIcon}
+            src={
+              "https://sri-misc-bucket.s3.us-east-2.amazonaws.com/student-connect/delete-icon.svg"
+            }
             onClick={handleDelete}
             alt="delete"
             width={24}
