@@ -13,6 +13,11 @@ RUN npm install
 # Copy the rest of the application code to the working directory
 COPY . .
 
+# Use args to get the value of REACT_APP_BACKEND_URL
+ARG REACT_APP_BACKEND_URL
+ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
+
+
 # Build the React app for production
 RUN npm run build
 
