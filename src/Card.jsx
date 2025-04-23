@@ -1,7 +1,7 @@
 // import deleteIcon from "./assets/delete-icon.svg";
 // import editIcon from "./assets/edit-icon.svg";
-import { useDispatch } from "react-redux";
-import { personLike } from "./personSlice";
+// import { useDispatch } from "react-redux";
+// import { personLike } from "./personSlice";
 import axios from "axios";
 
 const Card = ({
@@ -13,7 +13,7 @@ const Card = ({
   /* 
     This component is a card that displays the person's details and a like button
   */
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const handleEdit = () => {
     // eslint-disable-next-line no-restricted-globals

@@ -3,14 +3,11 @@ import "./App.css";
 import Card from "./Card";
 import { useEffect, useState } from "react";
 import CreatePerson from "./createPerson";
-import { useSelector, useDispatch } from "react-redux";
-import { addPerson, deletePerson, editPerson, people } from "./personSlice";
 import TableView from "./DataGrid";
 import axios from "axios";
 
 function App() {
-  const [peopleData, setPeopleData] = useState(useSelector(people));
-  const dispatch = useDispatch();
+  const [peopleData, setPeopleData] = useState([]);
   const [formActive, setFormActive] = useState("");
   const [view, setView] = useState("tile");
   const [personForm, setPersonForm] = useState({
@@ -56,12 +53,10 @@ function App() {
           // setPeopleData(data);
           getAllProfilesFromBackend();
         });
-      // dispatch(addPerson(personForm));
       resetPersonForm();
 
       setFormActive("");
     } else {
-      // dispatch(editPerson(personForm));
       axios
         .put(
           `${process.env.REACT_APP_BACKEND_URL}/api/profiles/${personForm.id}`,
@@ -70,7 +65,6 @@ function App() {
         .then((response) => {
           const data = response.data;
           console.log(data);
-          // setPeopleData(data);
           getAllProfilesFromBackend();
         });
       resetPersonForm();
@@ -96,7 +90,15 @@ function App() {
     });
   };
   const handleDeletePerson = (person) => {
-    dispatch(deletePerson(person));
+    axios
+      .delete(`${process.env.REACT_APP_BACKEND_URL}/api/profiles/${person.id}`)
+      .then((response) => {
+        const data = response.data;
+        console.log(data);
+        getAllProfilesFromBackend();
+      });
+    resetPersonForm();
+    setFormActive("");
   };
   useEffect(() => {
     // Fetch data from backend api using axios
