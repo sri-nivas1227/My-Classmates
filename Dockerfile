@@ -22,16 +22,14 @@ ENV REACT_APP_BACKEND_URL=$REACT_APP_BACKEND_URL
 # # Build the React app for production
 RUN npm run build
 
-# FROM nginx:stable-alpine as production
+# Stage 2: Serve with Nginx
+FROM nginx:alpine
 
-# # Copy the build output to the Nginx HTML directory
-# COPY --from=build /app/build /usr/share/nginx/html 
+# Remove default nginx page
+RUN rm -rf /usr/share/nginx/html/*
 
-# # Copy the Nginx configuration file
-# # COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy built frontend files
+COPY --from=build /app/build /usr/share/nginx/html
 
-# # Expose port 80
-# EXPOSE 80
-
-# # Start Nginx server
-# CMD ["nginx", "-g", "daemon off;"]
+# Copy custom nginx config (optional)
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
